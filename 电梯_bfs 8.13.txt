@@ -1,0 +1,147 @@
+﻿https://vjudge.net/contest/310214#problem/J
+有一个奇怪的电梯。电梯可以按您的要求在每一层停车，每一层都有一个数字Ki(0 <= Ki <= N)。
+电梯只有两个按钮:向上和向下。当你在i层时，如果你按下“向上”按钮，你就会爬到i层。
+e，你会去i+Ki层，同样的，如果你按下“向下”按钮，你会去Ki层，i。e，你要去i-Ki楼。
+当然，升力不能高于N，也不能低于1。例如，有一栋5层楼的建筑，k1 = 3, k2 = 3,k3 = 1,k4 = 2, k5 = 5。
+从1楼开始，你可以按“上”键，然后你就可以上4楼了，如果你按“下”键，电梯就做不到，因为它不能下到-2楼，
+你知道，-2楼是不存在的。问题来了:当你在A层，你想去B层，他至少要按几次“上”或“下”键?
+输入输入由几个测试用例组成。，每个测试用例包含两行。
+第一行包含三个整数N,A,B (1 <= N,A,B <= 200)，描述上述，第二行包含N个整数k1,k2，…kn。
+一个0表示输入的结束。
+输出对于输入输出为a的每一种情况，当你在a层，你想去B层时，你至少要按下按钮几次。
+如果你不能到达B层，打印f "-1"。
+样例输入
+5 1 5
+3 3 1 2 5
+0
+样例输出
+3.
+#include<iostream>
+#include<stdio.h>
+#include<cstring>
+#include<algorithm>
+#include<queue>
+using namespace std;
+int s[205];
+int x[205];
+int a,b,n,sum;
+struct message{
+	int f;//现阶段层数 
+	int step;//步数 
+};
+int BFS()
+{
+	int sum=-1;//题目中如果不能计算直接输出-1 
+	queue<message> q;
+	q.push(message{a,0});
+	while(!q.empty())
+	{
+		message m=q.front();
+		q.pop();
+		if(s[m.f]==1)//标记这个走过，避免死循环 
+		{
+			continue;
+		}
+		else
+		{
+			s[m.f]=1;
+		}
+		if(m.f==b)//剪掉枝叶
+		{
+			sum=m.step;
+			break;
+		}
+		//xiangshang
+		if(m.f+x[m.f]<=n)
+		{
+			q.push(message{m.f+x[m.f],m.step+1});
+		}
+		//xiangxia
+		if(m.f-x[m.f]>0)
+		{
+			q.push(message{m.f-x[m.f],m.step+1});
+		}
+	}
+	while(!q.empty())
+	{
+		q.pop();
+	}
+	return sum;
+}
+int main ()
+{
+	while(cin>>n&&n!=0)
+	{
+		cin>>a>>b;
+		memset(s,0,sizeof(s));
+		memset(x,0,sizeof(x));
+		for(int i=1;i<=n;i++)
+		{
+			cin>>x[i];
+		}
+		
+		
+		cout<<BFS()<<endl;
+		
+	}
+	
+	return 0;
+}
+int main ()
+{
+	while(cin>>n&&n!=0)
+	{
+		cin>>a>>b;
+		memset(s,0,sizeof(s));
+		memset(x,0,sizeof(x));
+		for(int i=1;i<=n;i++)
+		{
+			cin>>x[i];
+		}
+		
+		
+		cout<<BFS()<<endl;
+		
+	}
+	
+	return 0;
+}
+		{
+			q.push(message{m.f+x[m.f],m.step+1});
+		}
+		//xiangxia
+		if(m.f-x[m.f]>0)
+		{
+			q.push(message{m.f-x[m.f],m.step+1});
+		}
+	}
+	while(!q.empty())
+	{
+		q.pop();
+	}
+	return sum;
+}
+int main ()
+{
+	while(cin>>n&&n!=0)
+	{
+		cin>>a>>b;
+		memset(s,0,sizeof(s));
+		memset(x,0,sizeof(x));
+		for(int i=1;i<=n;i++)
+		{
+			cin>>x[i];
+		}
+		
+		
+		cout<<BFS()<<endl;
+		
+	}
+	
+	return 0;
+}
+
+
+解题思路：
+bfs+队列；
+运用结构体，避免变量过多弄混；
